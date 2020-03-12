@@ -1,18 +1,19 @@
-import React, { useContext, createContext, useState } from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { decode } from jsonwebtoken
+import React, { useContext, createContext, useState } from "react"
+import { Route, Redirect } from "react-router-dom"
+import { decode } from "jsonwebtoken"
 
 class AuthService {
   constructor(config = {}) {
-    this.domain = config.domain || '/api'
-    this.authPath = config.authPath || 'login'
+    this.domain = config.domain || "/api"
+    this.authPath = config.authPath || "login"
   }
 
   login = (username, password) => {
     return this.fetch(`${this.domain}/${this.authPath}`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
-        username, password
+        username,
+        password
       })
     }).then(resp => {
       this.setToken(resp.token)
@@ -21,12 +22,12 @@ class AuthService {
   }
 
   logout = () => {
-    localStorage.removeItem('authtoken')
+    localStorage.removeItem("authtoken")
   }
 
   loggedIn = () => {
     const token = this.getToken()
-    return !!token && !this.isTokenExpired(token) 
+    return !!token && !this.isTokenExpired(token)
   }
 
   isTokenExpired = token => {
@@ -38,9 +39,9 @@ class AuthService {
     }
   }
 
-  setToken = token => localStorage.setItem('authtoken', token)
+  setToken = token => localStorage.setItem("authtoken", token)
 
-  getToken = () => localStorage.getItem('authtoken')
+  getToken = () => localStorage.getItem("authtoken")
 
   getProfile = () => decode(this.getToken())
 
@@ -54,15 +55,18 @@ class AuthService {
     }
   }
 
-  get = (url) => this.fetch(url, { method: 'GET'})
+  get = url => this.fetch(url, { method: "GET" })
 
-  post = (url, data) => this.fetch(url, { method: 'POST', body: JSON.stringify(data)})
+  post = (url, data) =>
+    this.fetch(url, { method: "POST", body: JSON.stringify(data) })
 
-  put = (url, data) => this.fetch(url, { method: 'PUT', body: JSON.stringify(data)})
+  put = (url, data) =>
+    this.fetch(url, { method: "PUT", body: JSON.stringify(data) })
 
-  patch = (url, data) => this.fetch(url, { method: 'PATCH', body: JSON.stringify(data)})
+  patch = (url, data) =>
+    this.fetch(url, { method: "PATCH", body: JSON.stringify(data) })
 
-  delete = (url) => this.fetch(url, { method: 'DELETE' })
+  delete = url => this.fetch(url, { method: "DELETE" })
 
   fetch = (url, options) => {
     const headers = {
@@ -71,12 +75,12 @@ class AuthService {
     }
 
     if (this.loggedIn()) {
-      headers['Authorization'] = `Bearer ${this.getToken()}`
+      headers["Authorization"] = `Bearer ${this.getToken()}`
     }
 
-    return this.fetch(url, { headers, ...options})
-            .then(this._checkStatus)
-            .then(resp => resp.json())
+    return this.fetch(url, { headers, ...options })
+      .then(this._checkStatus)
+      .then(resp => resp.json())
   }
 }
 
@@ -84,7 +88,7 @@ export const api = new AuthService()
 
 export const AuthContext = createContext({
   isAuthenticated: false,
-  redirectUrl: '/login'
+  redirectUrl: "/login"
 })
 
 export const AuthProvider = props => {
@@ -125,7 +129,7 @@ export const AuthProvider = props => {
 }
 
 AuthProvider.defaultProps = {
-  redirectUrl: '/login'
+  redirectUrl: "/login"
 }
 
 export const AuthRoute = ({ component: Component, ...rest }) => {
