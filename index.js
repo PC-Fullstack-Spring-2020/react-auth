@@ -8,7 +8,7 @@ class AuthService {
     this.authPath = config.authPath || "login"
   }
 
-  login = (username, password) => {
+  login(username, password) {
     return this.fetch(`${this.domain}/${this.authPath}`, {
       method: "POST",
       body: JSON.stringify({
@@ -21,16 +21,16 @@ class AuthService {
     })
   }
 
-  logout = () => {
+  logout() {
     localStorage.removeItem("authtoken")
   }
 
-  loggedIn = () => {
+  loggedIn() {
     const token = this.getToken()
     return !!token && !this.isTokenExpired(token)
   }
 
-  isTokenExpired = token => {
+  isTokenExpired(token) {
     try {
       const decoded = decode(token)
       return decoded.exp < Date.now() / 1000
@@ -39,13 +39,19 @@ class AuthService {
     }
   }
 
-  setToken = token => localStorage.setItem("authtoken", token)
+  setToken(token) {
+    return localStorage.setItem("authtoken", token)
+  }
 
-  getToken = () => localStorage.getItem("authtoken")
+  getToken() {
+    return localStorage.getItem("authtoken")
+  }
 
-  getProfile = () => decode(this.getToken())
+  getProfile() {
+    return decode(this.getToken())
+  }
 
-  _checkStatus = response => {
+  _checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
       return response
     } else {
@@ -55,20 +61,27 @@ class AuthService {
     }
   }
 
-  get = url => this.fetch(url, { method: "GET" })
+  get(url) {
+    return this.fetch(url, { method: "GET" })
+  }
 
-  post = (url, data) =>
-    this.fetch(url, { method: "POST", body: JSON.stringify(data) })
+  post(url, data) {
+    return this.fetch(url, { method: "POST", body: JSON.stringify(data) })
+  }
 
-  put = (url, data) =>
-    this.fetch(url, { method: "PUT", body: JSON.stringify(data) })
+  put(url, data) {
+    return this.fetch(url, { method: "PUT", body: JSON.stringify(data) })
+  }
 
-  patch = (url, data) =>
-    this.fetch(url, { method: "PATCH", body: JSON.stringify(data) })
+  patch(url, data) {
+    return this.fetch(url, { method: "PATCH", body: JSON.stringify(data) })
+  }
 
-  delete = url => this.fetch(url, { method: "DELETE" })
+  delete(url) {
+    return this.fetch(url, { method: "DELETE" })
+  }
 
-  fetch = (url, options) => {
+  fetch(url, options) {
     const headers = {
       Accept: "application/json",
       "Content-Type": "application/json"
@@ -78,7 +91,7 @@ class AuthService {
       headers["Authorization"] = `Bearer ${this.getToken()}`
     }
 
-    return this.fetch(url, { headers, ...options })
+    return fetch(url, { headers, ...options })
       .then(this._checkStatus)
       .then(resp => resp.json())
   }
