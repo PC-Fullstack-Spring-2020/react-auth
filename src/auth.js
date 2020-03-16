@@ -76,6 +76,8 @@ class AuthService {
   }
 
   fetch(url, options) {
+    url = this.domain + url
+
     const headers = {
       Accept: "application/json",
       "Content-Type": "application/json"
