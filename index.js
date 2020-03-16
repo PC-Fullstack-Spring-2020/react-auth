@@ -225,5 +225,7 @@ function useAuth() {
       signout = _useContext.signout,
       isAuthenticated = _useContext.isAuthenticated;
 
-  return { signin: signin, signout: signout, isAuthenticated: isAuthenticated };
+  var profile = api.getProfile() || {};
+
+  return { signin: signin, signout: signout, isAuthenticated: isAuthenticated, profile: profile };
 }

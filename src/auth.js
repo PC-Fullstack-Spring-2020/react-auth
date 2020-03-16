@@ -163,6 +163,7 @@ export const AuthRoute = ({ component: Component, ...rest }) => {
 
 export function useAuth() {
   const { signin, signout, isAuthenticated } = useContext(AuthContext)
+  const profile = api.getProfile() || {}
 
-  return { signin, signout, isAuthenticated }
+  return { signin, signout, isAuthenticated, profile }
 }
