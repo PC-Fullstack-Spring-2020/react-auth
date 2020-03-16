@@ -132,6 +132,8 @@ var AuthService = function () {
 
       return fetch;
     }(function (url, options) {
+      url = this.domain + url;
+
       var headers = {
         Accept: "application/json",
         "Content-Type": "application/json"
