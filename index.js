@@ -42,13 +42,7 @@ var AuthService = function () {
     value: function login(username, password) {
       var _this = this;
 
-      return this.fetch(this.domain + "/" + this.authPath, {
-        method: "POST",
-        body: JSON.stringify({
-          username: username,
-          password: password
-        })
-      }).then(function (resp) {
+      return this.post("/" + this.authPath, { username: username, password: password }).then(function (resp) {
         _this.setToken(resp.token);
         return Promise.resolve(resp);
       });
