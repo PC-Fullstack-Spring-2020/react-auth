@@ -169,7 +169,7 @@ var AuthProvider = exports.AuthProvider = function AuthProvider(props) {
       isAuthenticated = _useState2[0],
       setAuthenticated = _useState2[1];
 
-  function signin() {
+  function signin(username, password) {
     return new Promise(function (resolve, reject) {
       api.login(username, password).then(function (data) {
         setAuthenticated(true);

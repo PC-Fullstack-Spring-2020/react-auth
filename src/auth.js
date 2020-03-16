@@ -107,7 +107,7 @@ export const AuthContext = createContext({
 export const AuthProvider = props => {
   const [isAuthenticated, setAuthenticated] = useState(api.loggedIn())
 
-  function signin() {
+  function signin(username, password) {
     return new Promise((resolve, reject) => {
       api
         .login(username, password)
