@@ -45,6 +45,8 @@ var AuthService = function () {
       return this.post("/" + this.authPath, { username: username, password: password }).then(function (resp) {
         _this.setToken(resp.token);
         return Promise.resolve(resp);
+      }).catch(function (err) {
+        return Promise.reject(resp);
       });
     }
   }, {

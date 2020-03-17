@@ -9,10 +9,14 @@ class AuthService {
   }
 
   login(username, password) {
-    return this.post(`/${this.authPath}`, { username, password }).then(resp => {
-      this.setToken(resp.token)
-      return Promise.resolve(resp)
-    })
+    return this.post(`/${this.authPath}`, { username, password })
+      .then(resp => {
+        this.setToken(resp.token)
+        return Promise.resolve(resp)
+      })
+      .catch(err => {
+        return Promise.reject(resp)
+      })
   }
 
   logout() {
