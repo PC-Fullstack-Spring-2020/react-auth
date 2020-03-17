@@ -46,7 +46,7 @@ var AuthService = function () {
         _this.setToken(resp.token);
         return Promise.resolve(resp);
       }).catch(function (err) {
-        return Promise.reject(resp);
+        return Promise.reject(err);
       });
     }
   }, {
