@@ -15,7 +15,7 @@ class AuthService {
         return Promise.resolve(resp)
       })
       .catch(err => {
-        return Promise.reject(resp)
+        return Promise.reject(err)
       })
   }
 
